@@ -6,16 +6,16 @@ def main(args=None):
 
     # open config file
     with open('config.yaml', 'r') as configFile:
-        config = yaml.load(configFile)
-    reading = 0
+        config = yaml.load(configFile, Loader=yaml.BaseLoader)
 
     # Init button
     sensor = Button(config['meter']['gpioPin'])
 
     # Open reading file
+    reading = 0
     dataFile = open(config['dataFile'], 'r')
     reading = float(dataFile.read())
-    file.close()
+    dataFile.close()
 
     print "Initial reading: {}".format(reading)
 
@@ -36,7 +36,7 @@ def main(args=None):
                 # Open reading file and store reading
                 dataFile = open(config['dataFile'], 'r')
                 reading = float(dataFile.read())
-                file.close()
+                dataFile.close()
 
                 # Push reading to MQTT server
                 paho.mqtt.publish.single(
