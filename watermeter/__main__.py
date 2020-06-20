@@ -6,7 +6,7 @@ def main(args=None):
 
     # open config file
     with open('config.yaml', 'r') as configFile:
-        config = yaml.load(configFile, Loader=yaml.BaseLoader)
+        config = yaml.load(configFile, Loader=yaml.SafeLoader)
 
     # Init button
     sensor = Button(config['meter']['gpioPin'])
@@ -47,8 +47,8 @@ def main(args=None):
                 print "Reading: {}".format(reading)
 
                 # Open reading file and store reading
-                dataFile = open(config['dataFile'], 'r')
-                reading = float(dataFile.read())
+                dataFile = open(config['dataFile'], 'w')
+                dataFile.write(str(reading))
                 dataFile.close()
 
                 # Push reading to MQTT server
@@ -57,7 +57,7 @@ def main(args=None):
                     reading,
                     hostname=config['mqtt']['host'],
                     port=config['mqtt']['port'],
-                    client_id=config['mqtt']['client'],
+                    client_id=config['mqtt']['client']
                     #auth={
                     #    'username': config['mqtt']['auth']['username'],
                     #    'password': config['mqtt']['auth']['password']
