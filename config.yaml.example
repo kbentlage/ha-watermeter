@@ -1,0 +1,14 @@
+meter:
+  gpioPin: 17
+  increase: 0.001
+
+mqtt:
+  host: mqtt-server
+  port: 1883
+  client: smartmeter
+  auth:
+    username: smartmeter
+    password: smartmeter
+  topic: ha/watermeter
+
+dataFile: reading.txt
