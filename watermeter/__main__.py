@@ -19,6 +19,19 @@ def main(args=None):
 
     print "Initial reading: {}".format(reading)
 
+    # Push initial reading to MQTT server
+    paho.mqtt.publish.single(
+        config['mqtt']['topic'],
+        reading,
+        hostname=config['mqtt']['host'],
+        port=config['mqtt']['port'],
+        client_id=config['mqtt']['client'],
+        # auth={
+        #    'username': config['mqtt']['auth']['username'],
+        #    'password': config['mqtt']['auth']['password']
+        # },
+    )
+
     prevPressed = False
 
     # Create infinite loop
